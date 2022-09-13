@@ -26,7 +26,7 @@ export default class EventsPresenter {
     render(this.#tripList, this.#tripEventContainer);
 
     if(this.#tripPoints.length === 0) {
-      render(new EmptyPointList, this.#tripEventContainer)
+      render(new EmptyPointList, this.#tripEventContainer);
     } else {
       for(let i = 0; i < this.#tripPoints.length; i++) {
         this.#renderPoint(this.#tripPoints[i]);
