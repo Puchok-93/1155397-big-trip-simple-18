@@ -2,6 +2,7 @@ import SortView from '../view/sort-view.js';
 import TripList from '../view/points-list-view.js';
 import TripPoint from '../view/point-view.js';
 import TripEdit from '../view/editor-view.js';
+import EmptyPointList from '../view/empty-point-list-view.js';
 import {render} from '../render.js';
 
 export default class EventsPresenter {
@@ -24,8 +25,12 @@ export default class EventsPresenter {
     render(new SortView(), this.#tripEventContainer);
     render(this.#tripList, this.#tripEventContainer);
 
-    for(let i = 0; i < this.#tripPoints.length; i++) {
-      this.#renderPoint(this.#tripPoints[i]);
+    if(this.#tripPoints.length === 0) {
+      render(new EmptyPointList, this.#tripEventContainer);
+    } else {
+      for(let i = 0; i < this.#tripPoints.length; i++) {
+        this.#renderPoint(this.#tripPoints[i]);
+      }
     }
   };
 
