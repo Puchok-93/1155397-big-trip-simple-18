@@ -1,5 +1,5 @@
 import { TYPES, DESCRIPTIONS } from '../const.js';
-import { getRandomInteger, getRandomArrayElement } from '../utils.js';
+import { getRandomInteger, getRandomArrayElement } from '../utils/utils.js';
 
 // Получаем случайный тип
 

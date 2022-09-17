@@ -1,5 +1,6 @@
-import { createElement } from '../render.js';
-import { formatDate, formatTime } from '../utils';
+import { formatDate, formatTime } from '../utils/format-date.js';
+import AbstractView from '../framework/view/abstract-view.js';
+
 
 // Создаем шаблон предложений
 
@@ -70,13 +71,13 @@ const createPointTemplate = (point, destination, offers) => {
 };
 
 
-export default class TripPoint {
+export default class TripPoint extends AbstractView {
   #point = null;
   #destination = null;
   #offers = null;
-  #element = null;
 
   constructor(point, destination, offers) {
+    super();
     this.#point = point;
     this.#destination = destination;
     this.#offers = offers;
@@ -86,15 +87,13 @@ export default class TripPoint {
     return createPointTemplate(this.#point, this.#destination, this.#offers);
   }
 
-  get element() {
-    if (!this.#element) {
-      this.#element = createElement(this.template);
-    }
+  setOpenFormHandler = (callback) => {
+    this._callback.openEditForm = callback;
+    this.element.querySelector('.event__rollup-btn').addEventListener('click', this.#openFormHandler);
+  };
 
-    return this.#element;
-  }
-
-  removeElement() {
-    this.#element = null;
-  }
+  #openFormHandler = (evt) => {
+    evt.preventDefault();
+    this._callback.openEditForm();
+  };
 }

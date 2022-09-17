@@ -1,6 +1,6 @@
-import { createElement } from '../render';
 import { TYPES } from '../const.js';
-import { formatFullDate } from '../utils.js';
+import { formatFullDate } from '../utils/format-date.js';
+import AbstractView from '../framework/view/abstract-view';
 
 const createInputsType = function(currentType) {
   const typesList = TYPES.map((type) =>
@@ -122,13 +122,13 @@ const createEditFormTempalte = function(point, allDestinations, offersByType) {
 };
 
 
-export default class TripEdit {
+export default class TripEdit extends AbstractView {
   #point = null;
   #destinations = null;
   #offersByType = null;
-  #element = null;
 
   constructor(point, destinations, offersByType) {
+    super();
     this.#point = point;
     this.#destinations = destinations;
     this.#offersByType = offersByType;
@@ -138,14 +138,23 @@ export default class TripEdit {
     return createEditFormTempalte(this.#point, this.#destinations, this.#offersByType);
   }
 
-  get element() {
-    if(!this.#element) {
-      this.#element = createElement(this.template);
-    }
-    return this.#element;
-  }
+  setCloseFormHandler = (callback) => {
+    this._callback.closeForm = callback;
+    this.element.querySelector('.event__rollup-btn').addEventListener('click', this.#closeFormHandler);
+  };
 
-  removeElement() {
-    this.#element = null;
-  }
+  setSubmitFormHandler = (callback) => {
+    this._callback.submitForm = callback;
+    this.element.addEventListener('submit', this.#submitFormHandler);
+  };
+
+  #closeFormHandler = (evt) => {
+    evt.preventDefault();
+    this._callback.closeForm();
+  };
+
+  #submitFormHandler = (evt) => {
+    evt.preventDefault();
+    this._callback.submitForm();
+  };
 }
