@@ -1,7 +1,7 @@
 import TripFilter from './view/filter-view';
 import EventsPresenter from './presenter/trip-board-presenter';
 import PointModel from './model/point-model.js';
-import {render} from './render.js';
+import {render} from './framework/render.js';
 
 // Header
 const siteHeader = document.querySelector('.page-header');
