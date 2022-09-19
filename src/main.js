@@ -1,4 +1,4 @@
-import TripFilter from './view/filter-view';
+import FilterView from './view/filter-view';
 import EventsPresenter from './presenter/trip-board-presenter';
 import PointModel from './model/point-model.js';
 import {render} from './framework/render.js';
@@ -16,5 +16,5 @@ const tripEvents = siteMain.querySelector('.trip-events');
 const pointModel = new PointModel();
 const tripPresenter = new EventsPresenter();
 
-render(new TripFilter(), tripFilters);
+render(new FilterView(pointModel.points), tripFilters);
 tripPresenter.init(tripEvents, pointModel);

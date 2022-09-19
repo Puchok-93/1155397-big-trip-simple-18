@@ -41,11 +41,11 @@ export default class EventsPresenter {
     const pointComponent = new TripPoint(point, destination, selectedOffers);
     const editComponent = new TripEdit(point, this.#tripDestinations, offersByType);
 
-    const replacePointToEditForm = () => {
+    const replacePointToEditForm = function() {
       replace(editComponent, pointComponent);
     };
 
-    const replaceEditFormToPoint = () => {
+    const replaceEditFormToPoint = function() {
       replace(pointComponent, editComponent);
     };
 
