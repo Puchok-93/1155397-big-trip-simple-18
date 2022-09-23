@@ -71,7 +71,7 @@ const createPointTemplate = (point, destination, offers) => {
 };
 
 
-export default class TripPoint extends AbstractView {
+export default class PointView extends AbstractView {
   #point = null;
   #destination = null;
   #offers = null;

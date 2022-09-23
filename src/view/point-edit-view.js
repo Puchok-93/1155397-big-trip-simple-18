@@ -122,7 +122,7 @@ const createEditFormTempalte = function(point, allDestinations, offersByType) {
 };
 
 
-export default class TripEdit extends AbstractView {
+export default class PointEditView extends AbstractView {
   #point = null;
   #destinations = null;
   #offersByType = null;

@@ -18,8 +18,7 @@ export default class PointModel {
   }
 
   getSelectedOffers = function (point) {
-    const selectedOffers = this.#offersByType.find((offer) => offer.type === point.type)
-      .offers.filter((offer) => point.offers.includes(offer.id));
+    const selectedOffers = this.#offersByType.find((offer) => offer.type === point.type).offers.filter((offer) => point.offers.includes(offer.id));
     return selectedOffers;
   };
 
