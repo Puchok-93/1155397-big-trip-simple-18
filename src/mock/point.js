@@ -1,5 +1,6 @@
 import { TYPES, DESCRIPTIONS } from '../const.js';
 import { getRandomInteger, getRandomArrayElement } from '../utils/utils.js';
+import { nanoid } from 'nanoid';
 
 // Получаем случайный тип
 
@@ -229,7 +230,7 @@ export const generateRandomPoint = function() {
   const destination = getRandomArrayElement(destinations);
 
   return ({
-    id: getRandomInteger(1, 50),
+    id: nanoid(),
     type: type,
     basePrice: getRandomInteger(100, 1000),
     dateFrom: `2019-07-${getRandomInteger(10, 14)}T22:${getRandomInteger(30, 55)}:56.845Z`,
