@@ -1,5 +1,7 @@
 import {render, RenderPosition} from '../framework/render.js';
 import {updateItem} from '../utils/utils.js';
+import { SORT_TYPES } from '../const.js';
+import {sortByDay, sortByPrice} from '../utils/sort.js';
 
 import SortView from '../view/sort-view.js';
 import PointsListView from '../view/points-list-view.js';
@@ -19,6 +21,8 @@ export default class BoardPointsPresenter {
 
 
   #tripPoints = [];
+  #sourcedTripPoints = [];
+  #currentSortType;
   #pointPresenter = new Map();
 
   constructor(pointsContainer, pointModel) {
@@ -28,11 +32,13 @@ export default class BoardPointsPresenter {
 
   init = function() {
     this.#tripPoints = [...this.#pointModel.points];
+    this.#sourcedTripPoints = [...this.#pointModel.points];
     this.#renderPoints();
   };
 
   #handlePointChange = (updatedPoint) => {
     this.#tripPoints = updateItem(this.#tripPoints, updatedPoint);
+    this.#sourcedTripPoints = updateItem(this.#sourcedTripPoints. updatedPoint);
     this.#pointPresenter.get(updatedPoint.id).init(updatedPoint);
   };
 
@@ -40,13 +46,42 @@ export default class BoardPointsPresenter {
     this.#pointPresenter.forEach((presenter) => presenter.resetView());
   };
 
+  #sortPoints = (type) => {
+    switch (type) {
+      case SORT_TYPES.DAY:
+        this.#tripPoints.sort(sortByDay);
+        break;
+      case SORT_TYPES.PRICE:
+        this.#tripPoints.sort(sortByPrice);
+        break;
+    }
+
+    this.#currentSortType = type;
+  };
+
+  #handleSortTypeChange = (type) => {
+    if (this.#currentSortType === type) {
+      return;
+    }
+
+    this.#sortPoints(type);
+    this.#clearPointsList();
+    this.#renderPointsList();
+  };
+
   #renderSort = () => {
     render(this.#sortComponent, this.#pointsContainer, RenderPosition.AFTERBEGIN);
+    this.#sortComponent.setSortTypeChangeHandler(this.#handleSortTypeChange);
   };
 
   #renderPointsList = () => {
     render(this.#pointsListComponent, this.#pointsContainer, RenderPosition.BEFOREEND);
     this.#tripPoints.forEach((tripPoint) => this.#renderPoint(tripPoint));
+  };
+
+  #clearPointsList = function() {
+    this.#pointPresenter.forEach((presenter) => presenter.destroy());
+    this.#pointPresenter.clear();
   };
 
   #renderEmptyPointsList = () => {
@@ -64,6 +99,7 @@ export default class BoardPointsPresenter {
       this.#renderEmptyPointsList();
     } else {
       this.#renderSort();
+      this.#sortPoints(SORT_TYPES.DAY);
       this.#renderPointsList();
     }
   };
